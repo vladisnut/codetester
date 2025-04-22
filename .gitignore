@@ -1,0 +1,29 @@
+# JetBrains IDE specific files:
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Python specific:
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment:
+venv/
+env/
+.venv/
+
+# Environments:
+.env
+.venv
+
+# VS Code:
+.vscode/
+
+# Database files:
+*.db
+*.sqlite
+
+# Log files:
+*.log
