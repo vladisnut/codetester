@@ -1,18 +1,11 @@
-from settings import TEST_TYPE
-from testing.general import testing
-from testing.test_type import TestType
+import sys
+
+from src.commands.command import proc_command
 
 
-def main():
-    """
-    Тесты должны быть разделены хотя бы одной пустой строкой.
-    Первые N строк теста – входные параметры тестируемой функции.
-    (N + 1)-я строка содержит ожидаемое возвращаемое значение
-    тестируемой функции (необязательно).
-    """
-    with open('tests.txt', 'r', encoding='utf-8') as f:
-        testing(getattr(TestType, TEST_TYPE.upper()), f.read())
+def main() -> None:
+    proc_command(sys.argv[1:])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,0 +1,16 @@
+[flake8]
+max-line-length = 88
+ignore =
+    W503,
+    ANN002, ANN003, ANN101, ANN102, ANN204, ANN401,
+    F405,
+    A003,
+
+exclude =
+    .git
+    __pycache__
+    venv
+    solutions
+
+per-file-ignores =
+    src/nodes/list_node.py: A002

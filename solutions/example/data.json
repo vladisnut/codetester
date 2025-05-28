@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "slug": "two-sum",
+    "url": "https://leetcode.com/problems/two-sum",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "tags": [
+        "Array",
+        "Hash Table"
+    ]
+}

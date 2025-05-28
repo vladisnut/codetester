@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-ast               # Проверка корректности Python-файлов
+      - id: trailing-whitespace     # Удаляет пробелы в конце строк
+      - id: end-of-file-fixer       # Добавляет пустую строку в конец файла
+      - id: check-yaml              # Проверяет синтаксис YAML
+      - id: check-toml              # Проверяет синтаксис TOML
+      - id: check-json              # Проверяет синтаксис JSON
+      - id: name-tests-test         # Проверяет имена тестов
+      - id: requirements-txt-fixer  # Сортировка requirements.txt
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black  # Форматирование кода
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort  # Сортировка импортов
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.2.0
+    hooks:
+      - id: flake8  # Линтер
+        additional_dependencies: [
+          flake8-bugbear,
+          flake8-comprehensions,
+          flake8-annotations,
+          flake8-builtins,
+          flake8-json,
+        ]

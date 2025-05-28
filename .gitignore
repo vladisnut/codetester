@@ -27,3 +27,7 @@ env/
 
 # Log files:
 *.log
+
+# Project:
+solutions/*
+!solutions/example/
