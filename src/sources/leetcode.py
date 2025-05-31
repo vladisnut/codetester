@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 
 from src.api.leetcode_api import (
     LEETCODE_PROBLEM_URL_FORMAT,
@@ -36,6 +35,6 @@ class Leetcode(Source):
         return LEETCODE_PROBLEM_URL_FORMAT.format(problem.slug)
 
     @classmethod
-    def get_problem_slug_by_url(cls, url: str) -> Optional[str]:
+    def get_problem_slug_by_url(cls, url: str) -> str | None:
         results = re.findall(cls.PROBLEM_URL_PATTERN, url)
         return results[0].split("/")[-1] if results else None

@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from config import DEFAULT_SOLUTION_TEMPLATE_NAME
+from src.config import DEFAULT_SOLUTION_TEMPLATE_NAME
 from src.problem import Problem
 from src.testing.utils import get_template
 

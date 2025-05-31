@@ -1,9 +1,10 @@
 import copy
 import time
+from collections.abc import Sequence
 from types import ModuleType
-from typing import Any, Sequence
+from typing import Any
 
-from config import MAIN_FUNCTION_NAME, SOLUTION_CLASS_NAME
+from src.config import MAIN_FUNCTION_NAME, SOLUTION_CLASS_NAME
 from src.testing.results.classic_result import ClassicResult
 from src.testing.results.result import Result
 from src.testing.testers.tester import Tester

@@ -1,9 +1,10 @@
 import inspect
 import sys
 import traceback
+from collections.abc import Callable
 from itertools import chain
 from types import FunctionType, ModuleType
-from typing import Any, Callable, Union, get_origin
+from typing import Any, Union, get_origin
 
 
 def get_funcs_from_module(module: ModuleType) -> list[FunctionType]:

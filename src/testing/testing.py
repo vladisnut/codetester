@@ -1,10 +1,11 @@
 import os.path
+from collections.abc import Callable, Iterable, Sequence
 from importlib import import_module
 from types import FunctionType, ModuleType
-from typing import Any, Callable, Iterable, Sequence, Type
+from typing import Any
 
-from config import (
-    LAUNCH_LAST_MODIFIED_SOLUTIONS,
+from src.config import (
+    LAUNCH_LAST_MODIFIED_SOLUTION,
     SOLUTION_DEFAULT_NAME,
     SOLUTION_SETTINGS_MODULE_NAME,
     SOLUTION_TESTS_FILE_NAME,
@@ -14,15 +15,15 @@ from src.solution import get_last_modified_solution_name, get_solution_module
 from src.testing.results.result import Result
 from src.testing.testers.tester import (
     Tester,
+    get_tester_by_name,
     get_tester_class_by_module,
-    get_testers_dict,
 )
 from src.utils.file import read_text_file
 from src.utils.style import print_message
 
 
 def testing_module(
-    tester_class: Type[Tester],
+    tester_class: type[Tester],
     module: ModuleType,
     test_data: str | Iterable[tuple[Sequence, Any]],
     target: str = None,
@@ -62,7 +63,7 @@ def testing_solution(
 ) -> None:
     # Получение имя решения.
     if not solution_name:
-        if LAUNCH_LAST_MODIFIED_SOLUTIONS:
+        if LAUNCH_LAST_MODIFIED_SOLUTION:
             solution_name = get_last_modified_solution_name()
         else:
             solution_name = SOLUTION_DEFAULT_NAME
@@ -93,7 +94,7 @@ def testing_solution(
     if tester is not None:
         if not isinstance(tester, str):
             raise Exception("Tester must be specified by the string")
-        tester_class = get_testers_dict().get(tester)
+        tester_class = get_tester_by_name(tester)
         if not tester_class:
             raise Exception('Tester "{tester}" not found')
     else:
@@ -155,7 +156,7 @@ def testing_solution(
                 testing_module(
                     tester_class=tester_class,
                     module=solution_module,
-                    test_data=((generator() for _ in range(count))),
+                    test_data=(generator() for _ in range(count)),
                     target=target,
                     runner=runner,
                     validator=validator,

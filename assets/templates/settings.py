@@ -1,7 +1,8 @@
-from typing import Any, Callable, Sequence, Type
+from collections.abc import Callable, Sequence
+from typing import Any
 
 
-def runner(target: Type | Callable, args: Sequence) -> Any:
+def runner(target: type | Callable, args: Sequence) -> Any:
     """
     Пользовательская настройка запуска тестируемой цели.
 

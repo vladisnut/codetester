@@ -2,9 +2,8 @@ import json
 import os
 from importlib import import_module
 from types import ModuleType
-from typing import Optional
 
-from config import (
+from src.config import (
     SOLUTION_DATA_FILE_NAME,
     SOLUTION_DESCRIPTION_FILE_NAME,
     SOLUTION_MODULE_NAME,
@@ -24,7 +23,7 @@ def get_solution_names() -> list[str]:
     return [d for d in os.listdir(SOLUTIONS_DIRECTORY) if d[0] != "_"]
 
 
-def get_solution_name_by_problem_id(problem_id: int) -> Optional[str]:
+def get_solution_name_by_problem_id(problem_id: int) -> str | None:
     for solution in get_solution_names():
         file_name = os.path.join(SOLUTIONS_DIRECTORY, solution, SOLUTION_DATA_FILE_NAME)
         if not os.path.exists(file_name):
@@ -56,7 +55,7 @@ def get_solution_module(solution_name: str) -> ModuleType:
             raise Exception(f'There is no solution named "{solution_name}"')
 
 
-def get_last_modified_solution_name() -> Optional[str]:
+def get_last_modified_solution_name() -> str | None:
     if not os.path.exists(SOLUTIONS_DIRECTORY):
         return None
 

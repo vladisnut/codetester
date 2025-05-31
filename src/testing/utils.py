@@ -2,10 +2,11 @@ import copy
 import inspect
 import json
 import os
-from typing import Any, Callable, Sequence
+from collections.abc import Callable, Sequence
+from typing import Any
 
-from config import SOLUTION_TEMPLATES_DIRECTORY, TEMPLATES_DIRECTORY
-from src.nodes.node import get_node_classes
+from src.config import SOLUTION_TEMPLATES_DIRECTORY, TEMPLATES_DIRECTORY
+from src.nodes.node import get_nodes
 from src.utils.file import read_text_file
 from src.utils.general import get_params_signature
 
@@ -71,7 +72,7 @@ def proc_args_by_func(args: Sequence, func: Callable) -> list:
     signatures = get_params_signature(func)
 
     for i, (arg, (_, param_type)) in enumerate(zip(args, signatures)):
-        for node_class in get_node_classes():
+        for node_class in get_nodes():
             annotation = str(param_type.annotation)
             if node_class.__name__ in annotation or node_class.ALT_NAME in annotation:
                 if len(arg) and isinstance(arg[0], Sequence):
@@ -90,7 +91,7 @@ def proc_test_result(value: Any, func: Callable) -> Any:
     sig = inspect.signature(func)
     return_annotation = str(sig.return_annotation)
 
-    for node_class in get_node_classes():
+    for node_class in get_nodes():
         if isinstance(value, node_class):
             return value.to_list()
         if value is None and node_class.__name__ in return_annotation:

@@ -1,11 +1,10 @@
 import json
 import re
 import typing
-from typing import Optional
 
 import requests
 
-from src.nodes.node import get_node_classes
+from src.nodes.node import Node, get_nodes
 from src.problem import Problem
 from src.utils.general import string_to_json, to_json_string
 
@@ -31,7 +30,7 @@ def parse_leetcode_problem(obj: dict) -> Problem:
     )
 
 
-def get_leetcode_problem_slug(problem_id: int) -> Optional[str]:
+def get_leetcode_problem_slug(problem_id: int) -> str | None:
     url = LEETCODE_GRAPHQL_URL
     headers = {
         "Content-Type": "application/json",
@@ -165,9 +164,12 @@ def proc_leetcode_code_snippet(text: str) -> str:
     typing_names = [
         name for name in dir(typing) if not name.startswith("_") and name.istitle()
     ]
-    node_classes = [x.ALT_NAME for x in get_node_classes() if x.ALT_NAME != "Node"]
+    node_classes_replace = [x.ALT_NAME for x in get_nodes() if x.ALT_NAME != "Node"]
+    node_classes_import = {f"'{x.ALT_NAME}'": x for x in get_nodes()}
+
+    commented_imports: set[type[Node]] = set()
+    import_types: set[str] = set()
     lines = text.splitlines()
-    types = set()
     i = 0
 
     while i < len(lines):
@@ -194,15 +196,21 @@ def proc_leetcode_code_snippet(text: str) -> str:
             if words and words[0] == "def":
                 # Заменить классы Node на имена в кавычках (чтобы не импортировать).
                 start_args = lines[i].find("(") + 1
-                for node_class in node_classes:
+                for name in node_classes_replace:
                     lines[i] = lines[i][:start_args] + lines[i][start_args:].replace(
-                        node_class, f"'{node_class}'"
+                        name, f"'{name}'"
                     )
 
+                # Добавить закомментированные импорты Nodes
+                # (на случай если их нужно будет импортировать).
+                for name, node_class in node_classes_import.items():
+                    if name in lines[i][start_args:]:
+                        commented_imports.add(node_class)
+
                 # Добавить импорты типов.
-                types.update(
-                    t for t in typing_names if t in re.findall(r"\w+", lines[i])
-                )
+                for name in typing_names:
+                    if name in re.findall(r"\w+", lines[i]):
+                        import_types.add(name)
 
                 # Добавить pass в пустые реализации.
                 while i < len(lines) and lines[i].strip():
@@ -213,8 +221,24 @@ def proc_leetcode_code_snippet(text: str) -> str:
 
         i += 1
 
+    if import_types or commented_imports:
+        lines.insert(0, "")
+
+    if commented_imports:
+        lines.insert(0, "")
+        for node_class in commented_imports:
+            lines.insert(
+                0,
+                (
+                    f"# from {node_class.__module__} import "
+                    f"{node_class.__name__} as {node_class.ALT_NAME}"
+                ),
+            )
+
+    if import_types:
+        lines.insert(0, f'from typing import {", ".join(import_types)}\n')
+
     if lines[-1].strip():
         lines.append("")
 
-    imports = f'from typing import {", ".join(types)}\n\n\n' if types else ""
-    return imports + "\n".join(lines)
+    return "\n".join(lines)

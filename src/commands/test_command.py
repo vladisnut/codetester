@@ -25,4 +25,4 @@ class TestCommand(Command):
         parser.add_argument("-d", "--debug", action="store_true", help="Debug mode")
 
     def execute(self) -> None:
-        testing_solution(self._args.solution, self._args.time, self._args.debug)
+        testing_solution(self.args.solution, self.args.time, self.args.debug)

@@ -1,5 +1,6 @@
+from collections.abc import Iterable
 from enum import Enum
-from typing import Any, Iterable
+from typing import Any
 
 
 class Style(Enum):

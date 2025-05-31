@@ -2,7 +2,11 @@ import webbrowser
 from argparse import ArgumentParser
 
 from src.commands.command import Command
-from src.sources.source import get_source_by_problem_url, get_sources_dict
+from src.sources.source import (
+    get_source_by_name,
+    get_source_by_problem_url,
+    get_source_names,
+)
 
 
 class LoadCommand(Command):
@@ -19,7 +23,7 @@ class LoadCommand(Command):
             "-s",
             "--source",
             default=None,
-            choices=get_sources_dict().keys(),
+            choices=get_source_names(),
             help="Problem source",
         )
         parser.add_argument(
@@ -27,13 +31,13 @@ class LoadCommand(Command):
         )
 
     def execute(self) -> None:
-        if self._args.source:
-            source = get_sources_dict()[self._args.source]
-            slug = self._args.slug
+        if self.args.source:
+            source = get_source_by_name(self.args.source)
+            slug = self.args.slug
         else:
-            if "https://" not in self._args.slug:
+            if "https://" not in self.args.slug:
                 raise Exception("If resource is not specified, slug must be a URL")
-            url = self._args.slug
+            url = self.args.slug
             source = get_source_by_problem_url(url)
             if not source:
                 raise Exception(
@@ -43,5 +47,5 @@ class LoadCommand(Command):
 
         source.load(slug)
 
-        if self._args.open:
+        if self.args.open:
             webbrowser.open(source.get_problem_url(slug))

@@ -12,7 +12,7 @@ load_dotenv()
 CREATE_NEW_SOLUTIONS = False
 
 # Когда имя решения не указано, использовать то, которое было изменено последним.
-LAUNCH_LAST_MODIFIED_SOLUTIONS = True
+LAUNCH_LAST_MODIFIED_SOLUTION = True
 
 # Ширина шапки вывода информационных блоков (результатов тестов).
 HEADER_WIDTH = 40

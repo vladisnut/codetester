@@ -2,10 +2,11 @@ import copy
 import io
 import sys
 import time
+from collections.abc import Sequence
 from types import ModuleType
-from typing import Any, Sequence
+from typing import Any
 
-from config import MAIN_FUNCTION_NAME
+from src.config import MAIN_FUNCTION_NAME
 from src.testing.results.result import Result
 from src.testing.results.stream_result import StreamResult
 from src.testing.testers.tester import Tester

@@ -1,7 +1,8 @@
 from abc import abstractmethod
-from typing import Any, Callable, Sequence
+from collections.abc import Callable, Sequence
+from typing import Any
 
-from config import HEADER_WIDTH
+from src.config import HEADER_WIDTH
 from src.testing.utils import get_header
 from src.utils.general import time_to_string
 from src.utils.style import Style, bold, italic, print_error, print_info, print_warning
@@ -48,7 +49,7 @@ class Result:
 
     @abstractmethod
     def _get_result_message(self, success: bool, expected: Any) -> str:
-        raise NotImplementedError()
+        pass
 
     def _validate_answer(self, expected: Any) -> bool:
         return expected is None or self.value == expected

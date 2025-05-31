@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, Sequence, Type
+from collections.abc import Sequence
 
 
 class Node:
@@ -13,13 +13,13 @@ class Node:
 
     @abstractmethod
     def to_list(self) -> list:
-        raise NotImplementedError()
+        pass
 
     @classmethod
     @abstractmethod
-    def from_list(cls, values: Sequence) -> Optional["Node"]:
-        raise NotImplementedError()
+    def from_list(cls, values: Sequence) -> "Node | None":
+        pass
 
 
-def get_node_classes() -> list[Type[Node]]:
+def get_nodes() -> list[type[Node]]:
     return Node.__subclasses__()

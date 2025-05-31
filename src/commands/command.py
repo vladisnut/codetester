@@ -2,10 +2,10 @@ import argparse
 import sys
 import traceback
 from abc import abstractmethod
-from argparse import ArgumentParser
-from typing import Sequence, Type
+from argparse import ArgumentParser, Namespace
+from collections.abc import Sequence
 
-from config import SOLUTION_MODULE_NAME
+from src.config import SOLUTION_MODULE_NAME
 from src.utils.general import print_exc_from_level
 from src.utils.style import print_error
 
@@ -16,31 +16,38 @@ class Command:
     def __init__(self, args: Sequence[str]):
         parser = ArgumentParser()
         self._init_args(parser)
-        self._args = parser.parse_args(args)
+        self.__args = parser.parse_args(args)
 
     def _init_args(self, parser: ArgumentParser) -> None:
         pass
 
+    @property
+    def args(self) -> Namespace:
+        return self.__args
+
     @abstractmethod
     def execute(self) -> None:
-        raise NotImplementedError()
+        pass
 
 
-def get_commands_dict() -> dict[str, Type[Command]]:
-    return {x.NAME: x for x in Command.__subclasses__()}
+def get_command_by_name(name: str) -> type[Command]:
+    return {x.NAME: x for x in Command.__subclasses__()}.get(name)
+
+
+def get_command_names() -> list[str]:
+    return [x.NAME for x in Command.__subclasses__()]
 
 
 def proc_command(args: Sequence[str]) -> None:
-    commands = get_commands_dict()
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=commands.keys(), help="Command")
+    parser.add_argument("command", choices=get_command_names(), help="Command")
 
     if not len(args):
         parser.print_help()
         return
 
     command_args = parser.parse_args([args[0]])
-    command_class = commands[command_args.command]
+    command_class = get_command_by_name(command_args.command)
 
     try:
         command = command_class(args[1:])

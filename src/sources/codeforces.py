@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 
 from src.api.codeforces_api import (
     CODEFORCES_PROBLEM_URL_FORMAT,
@@ -23,6 +22,6 @@ class Codeforces(Source):
         return CODEFORCES_PROBLEM_URL_FORMAT.format(slug[:-1], slug[-1])
 
     @classmethod
-    def get_problem_slug_by_url(cls, url: str) -> Optional[str]:
+    def get_problem_slug_by_url(cls, url: str) -> str | None:
         results = re.findall(cls.PROBLEM_URL_PATTERN, url)
         return "".join(results[0].split("/")[-2:]) if results else None

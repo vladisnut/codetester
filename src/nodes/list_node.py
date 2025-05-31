@@ -1,4 +1,5 @@
-from typing import Any, Optional, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from src.nodes.node import Node
 
@@ -10,7 +11,7 @@ class ListNode(Node):
 
     ALT_NAME = "ListNode"
 
-    def __init__(self, val: Any = None, next: Optional["ListNode"] = None):
+    def __init__(self, val: Any = None, next: "ListNode | None" = None):
         self.val = val
         self.next = next
 
@@ -25,7 +26,7 @@ class ListNode(Node):
         return values
 
     @classmethod
-    def from_list(cls, values: Sequence) -> Optional["ListNode"]:
+    def from_list(cls, values: Sequence) -> "ListNode | None":
         dummy_node = ListNode()
         current_node = dummy_node
 

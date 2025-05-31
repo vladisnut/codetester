@@ -1,5 +1,5 @@
 def read_text_file(file_name: str) -> str:
-    with open(file_name, "r", encoding="utf-8") as f:
+    with open(file_name, encoding="utf-8") as f:
         return f.read()
 
 

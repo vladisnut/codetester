@@ -1,5 +1,6 @@
 from collections import deque
-from typing import Any, Optional, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from src.nodes.node import Node
 
@@ -14,8 +15,8 @@ class BinaryTreeNode(Node):
     def __init__(
         self,
         val: Any = None,
-        left: Optional["BinaryTreeNode"] = None,
-        right: Optional["BinaryTreeNode"] = None,
+        left: "BinaryTreeNode | None" = None,
+        right: "BinaryTreeNode | None" = None,
     ):
         self.val = val
         self.left = left
@@ -41,7 +42,7 @@ class BinaryTreeNode(Node):
         return values
 
     @classmethod
-    def from_list(cls, values: Sequence) -> Optional["BinaryTreeNode"]:
+    def from_list(cls, values: Sequence) -> "BinaryTreeNode | None":
         if not values:
             return None
 

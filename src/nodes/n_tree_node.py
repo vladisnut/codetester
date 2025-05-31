@@ -1,5 +1,6 @@
 from collections import deque
-from typing import Any, List, Optional, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from src.nodes.node import Node
 
@@ -11,7 +12,7 @@ class NTreeNode(Node):
 
     ALT_NAME = "Node"
 
-    def __init__(self, val: Any = None, children: List["NTreeNode"] = None):
+    def __init__(self, val: Any = None, children: list["NTreeNode"] = None):
         self.val = val
         self.children = children or []
 
@@ -33,7 +34,7 @@ class NTreeNode(Node):
         return values
 
     @classmethod
-    def from_list(cls, values: Sequence) -> Optional["NTreeNode"]:
+    def from_list(cls, values: Sequence) -> "NTreeNode | None":
         if not values:
             return None
 

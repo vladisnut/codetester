@@ -30,5 +30,12 @@ repos:
           flake8-comprehensions,
           flake8-annotations,
           flake8-builtins,
-          flake8-json,
+          flake8-bandit,
         ]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.20.0
+    hooks:
+      - id: pyupgrade # Автоматическое обновление синтаксиса
+        args: [--py310-plus]
+        exclude: ^solutions/.*/solution\.py$

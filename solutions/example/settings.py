@@ -1,5 +1,6 @@
 import random
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 
 def validator(
